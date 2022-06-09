@@ -47,29 +47,56 @@ public class TaskServiceImpl implements ITaskService {
 	}
 
 	@Override
-	public TaskDto updateTask(TaskDto task, Integer taskId) {
+	public TaskDto updateTask(TaskDto taskDto, Integer taskId) {
 		
-		return null;
+		Task task = this.taskDao.findById(taskId)
+				.orElseThrow(() -> new ResourceNotFoundException("Task", "Task Id", taskId));
+		task.setAssignedBy(taskDto.getAssignedBy());
+		task.setAssignedTo(taskDto.getAssignedTo());
+		task.setAssignedDate(taskDto.getAssignedDate());
+		task.setTentativeDate(taskDto.getTentativeDate());
+		task.setCategory(taskDto.getCategory());
+		task.setComment(taskDto.getComment());
+		task.setDescription(taskDto.getDescription());
+		task.setRemark(taskDto.getRemark());
+		task.setStatus(taskDto.getStatus());
+		task.setTitle(taskDto.getTitle());
+		
+		Task updateTask = this.taskDao.save(task);
+		return this.modelMapper.map(updateTask, TaskDto.class);
+		
+		
+		
+		
 	}
 
 	@Override
 	public void deleteTask(Integer taskId) {
-	
-
+	Task task = this.taskDao.findById(taskId)
+			.orElseThrow(()-> new ResourceNotFoundException("Task", "Task Id", taskId));
+		this.taskDao.delete(task);
 	}
 
 	@Override
-	public TaskDto getAllTask() {
+	public List<TaskDto> getAllTask() {
+		List<Task> allTasks = this.taskDao.findAll();
+		List<TaskDto> taskDtos =allTasks.stream().map((task) ->this.modelMapper.map(task, TaskDto.class))
+				.collect(Collectors.toList());
 		
-		return null;
+		
+		return taskDtos;
 	}
 
+	//get task by task id
 	@Override
 	public TaskDto getTaskById(Integer taskId) {
+	Task task = this.taskDao.findById(taskId)
+			.orElseThrow(()-> new ResourceNotFoundException("Task", "Task Id", taskId));
 	
-		return null;
+		return this.modelMapper.map(task, TaskDto.class);
 	}
 
+	//get task by user id
 	@Override
 	public List<TaskDto> getTaskAssignedToUser(Integer userId) {
 	Users user = this.userDao.findById(userId)

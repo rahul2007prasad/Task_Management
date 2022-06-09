@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.TaskDto;
+import com.app.pojos.Task;
 import com.app.service.ITaskService;
 
 @RestController
@@ -39,6 +40,13 @@ public class TaskController {
 		return new ResponseEntity<List<TaskDto>>(tasks,HttpStatus.OK);
 	}
 	
+	//get all task
+	@GetMapping("/tasks")
+	public ResponseEntity<List<TaskDto>> getAllTask(){
+		List<TaskDto> allTask = this.taskService.getAllTask();
+	
+		return new ResponseEntity<List<TaskDto>>(allTask,HttpStatus.OK);
+	}
 	
 	
 	

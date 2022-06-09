@@ -4,7 +4,9 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 
-public class TaskDto {
+import com.app.pojos.BaseEntity;
+
+public class TaskDto extends BaseEntity{
 
 	public TaskDto() {
 		System.out.println("In constr of "+getClass().getName());

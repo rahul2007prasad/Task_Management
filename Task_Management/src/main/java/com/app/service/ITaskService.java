@@ -18,7 +18,7 @@ public interface ITaskService {
 	
 	//get all task
 	
-	TaskDto getAllTask();
+	List<TaskDto> getAllTask();
 	
 	//get single task
 	TaskDto getTaskById(Integer taskId);
